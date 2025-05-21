@@ -1,0 +1,23 @@
+name: Trivy Image Scan
+
+on:
+  workflow_dispatch: {}
+  push:
+
+jobs:
+  trivy-scan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Trivy and run scan
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: image
+          scan-ref: node:12-alpine
+          format: table
+          exit-code: 0  # Não falha o pipeline
+          ignore-unfixed: true
+          severity: CRITICAL,HIGH
